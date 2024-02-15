@@ -54,5 +54,17 @@ namespace Forms.Controllers
 
             return View(model);
         }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewBag.Categories = Repository.Categories;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Product model)
+        {
+            return View();
+        }
     }
 }
