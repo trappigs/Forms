@@ -2,18 +2,12 @@ using Forms.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace Forms.Controllers
 {
     public class HomeController : Controller
     {
-
-        public IActionResult Index()
-        {
-            //Ürün listesi View sayfasýna gönderiliyor
-            return View(Repository.Products);
-        }
-
         [HttpGet]
         public IActionResult Index(string searchString, string category)
         {
@@ -45,6 +39,7 @@ namespace Forms.Controllers
             // model adýnda bir deðiþken oluþturuyoruz
             // bu deðiþkenin içerisine products ve categories listesini atýyoruz
             // ve bu deðiþkeni view sayfasýna gönderiyoruz
+
             var model = new ProductViewModel
             {
                 Products = products,
@@ -54,17 +49,20 @@ namespace Forms.Controllers
 
             return View(model);
         }
+
+
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Categories = Repository.Categories;
+            ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(Product model)
         {
-            return View();
+            ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+            return View(model);
         }
     }
 }

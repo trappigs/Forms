@@ -6,8 +6,10 @@ namespace Forms.Models
     // kategorilerin id ve adını tutuyor
     public class Category
     {
-        public int CategoryId { get; set; }
+        [Display(Name="")]
+        public int? CategoryId { get; set; }
 
+        [Display(Name = "")]
         public string? Name { get; set; } = string.Empty;
     }
 }
