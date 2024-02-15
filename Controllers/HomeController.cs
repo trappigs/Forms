@@ -32,6 +32,9 @@ namespace Forms.Controllers
                 products = products.Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
             }
 
+            // category null veya boþ deðilse eðer bu koþul çalýþýyor
+            // category 0 deðilse eðer bu koþul çalýþýyor
+            // category deðerine göre products listesi filtreleniyor
             if (!String.IsNullOrEmpty(category) && category != "0")
             {
                 products = products.Where(p => p.CategoryId == int.Parse(category)).ToList();
@@ -39,11 +42,17 @@ namespace Forms.Controllers
 
             // bundan sonra tarayýcýda linkin sonuna ?searchString=iphone yazarak arama yapabiliriz
 
-            ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+            // model adýnda bir deðiþken oluþturuyoruz
+            // bu deðiþkenin içerisine products ve categories listesini atýyoruz
+            // ve bu deðiþkeni view sayfasýna gönderiyoruz
+            var model = new ProductViewModel
+            {
+                Products = products,
+                Categories = Repository.Categories,
+                SelectedCategory = int.Parse(category)
+            };
 
-
-
-            return View(products);
+            return View(model);
         }
     }
 }
