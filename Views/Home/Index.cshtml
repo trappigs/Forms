@@ -3,7 +3,27 @@
     ViewData["Title"] = "Anasayfa";
 }
 
-<table class="table w-auto mx-auto table-bordered table-striped">
+
+<div class="card card-body align-items-center justify-content-center ">
+    <form asp-action="Index" method="get">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11">
+                    <select name="category" class="form-select" asp-items="@ViewBag.Categories">
+                        <option value="0">Hepsi</option>
+                    </select>
+                </div>
+                <div class="col-md-11">
+                    <button class="btn btn-primary">
+                        Filtrele
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<table class="table table-sm w-100 text-center mx-auto table-bordered table-striped">
     <thead>
         <tr>
             @* İlgili Product sayfasında yer alan Display(Name) özelliği kullanılarak tablo başlıkları doğrudan buraya geliyor *@

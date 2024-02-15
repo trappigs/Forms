@@ -1,4 +1,6 @@
-﻿namespace Forms.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Forms.Models
 {
     // kategori sınıfı
     // kategorilerin id ve adını tutuyor

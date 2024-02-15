@@ -1,5 +1,6 @@
 using Forms.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 
 namespace Forms.Controllers
@@ -14,7 +15,7 @@ namespace Forms.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string searchString)
+        public IActionResult Index(string searchString, string category)
         {
             // products deðiþkenine tüm ürünler koyuluyor
             var products = Repository.Products;
@@ -30,7 +31,17 @@ namespace Forms.Controllers
                 // varsa eðer, listeye çevirilerek, productsa kaydediliyor
                 products = products.Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
             }
+
+            if (!String.IsNullOrEmpty(category) && category != "0")
+            {
+                products = products.Where(p => p.CategoryId == int.Parse(category)).ToList();
+            }
+
             // bundan sonra tarayýcýda linkin sonuna ?searchString=iphone yazarak arama yapabiliriz
+
+            ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+
+
 
             return View(products);
         }
