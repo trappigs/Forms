@@ -1,8 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Anasayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<table class="table w-auto mx-auto table-bordered table-striped">
+    <thead>
+        <tr>
+            @* İlgili Product sayfasında yer alan Display(Name) özelliği kullanılarak tablo başlıkları doğrudan buraya geliyor *@
+            <th>@Html.DisplayNameFor(m => m.ProductId)</th>
+            <th>@Html.DisplayNameFor(m => m.Name)</th>
+            <th>@Html.DisplayNameFor(m => m.Price)</th>
+            <th style="width: 50px">@Html.DisplayNameFor(m => m.Image)</th>
+            <th>@Html.DisplayNameFor(m => m.IsActive)</th>
+            <th>@Html.DisplayNameFor(m => m.CategoryId)</th>
+            <th>Düzenle</th>
+        </tr>
+    </thead>
+    <tbody class="align-middle">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductId</td>
+                <td>@item.Name</td>
+                <td>@item.Price TL</td>
+                <td><img src="/img/@item.Image" class="img-fluid" /></td>
+                <td>@item.IsActive</td>
+                <td>@item.CategoryId</td>
+                <td>
+                    <a href="" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
