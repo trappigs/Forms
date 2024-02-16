@@ -7,9 +7,9 @@ namespace Forms.Models
     public class Category
     {
         [Display(Name="")]
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         [Display(Name = "")]
-        public string? Name { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
 }

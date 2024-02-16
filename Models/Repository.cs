@@ -30,6 +30,20 @@
             get { return _products; }
         }
 
+        public static void CreateProduct(Product entity)
+        {
+            _products.Add(entity);
+        }
+
+        public static int GetProductId()
+        {
+            if (_products.Count > 0)
+            {
+                return _products.Max(p => p.ProductId) + 1;
+            }
+            else { return 0; }
+        }
+
         // kategorilerin çağırılması için oluşturduğumuz metot
         public static List<Category> Categories
         {

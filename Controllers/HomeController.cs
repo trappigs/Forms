@@ -1,4 +1,4 @@
-using Forms.Models;
+ï»¿using Forms.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
@@ -11,40 +11,40 @@ namespace Forms.Controllers
         [HttpGet]
         public IActionResult Index(string searchString, string category)
         {
-            // products değişkenine tüm ürünler koyuluyor
+            // products deÃ°iÃ¾kenine tÃ¼m Ã¼rÃ¼nler koyuluyor
             var products = Repository.Products;
 
 
-            // searchstring null veya boş değilse eğer bu koşul çalışıyor
+            // searchstring null veya boÃ¾ deÃ°ilse eÃ°er bu koÃ¾ul Ã§alÃ½Ã¾Ã½yor
             if (!String.IsNullOrEmpty(searchString))
             {
-                // Ürünlerin içinde arama yapılıyor
-                // Mevcut ürünler arasından where koşuluyla linq expression kullanılıyor
-                // p denilen değişken products içerisinde yer alan her bir ürünü temsil ediyor
-                // bu, products içerisindeki ürünlerin adları içerisinde, bizim search stringimiz var mı kontrol ediliyor
-                // varsa eğer, listeye çevirilerek, productsa kaydediliyor
-                products = products.Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
+                // ÃœrÃ¼nlerin iÃ§inde arama yapÃ½lÃ½yor
+                // Mevcut Ã¼rÃ¼nler arasÃ½ndan where koÃ¾uluyla linq expression kullanÃ½lÃ½yor
+                // p denilen deÃ°iÃ¾ken products iÃ§erisinde yer alan her bir Ã¼rÃ¼nÃ¼ temsil ediyor
+                // bu, products iÃ§erisindeki Ã¼rÃ¼nlerin adlarÃ½ iÃ§erisinde, bizim search stringimiz var mÃ½ kontrol ediliyor
+                // varsa eÃ°er, listeye Ã§evirilerek, productsa kaydediliyor
+                products = products.Where(p => p.Name.ToLower().Contains(searchString)).ToList();
             }
 
-            // category null veya boş değilse eğer bu koşul çalışıyor
-            // category 0 değilse eğer bu koşul çalışıyor
-            // category değerine göre products listesi filtreleniyor
+            // category null veya boÃ¾ deÃ°ilse eÃ°er bu koÃ¾ul Ã§alÃ½Ã¾Ã½yor
+            // category 0 deÃ°ilse eÃ°er bu koÃ¾ul Ã§alÃ½Ã¾Ã½yor
+            // category deÃ°erine gÃ¶re products listesi filtreleniyor
             if (!String.IsNullOrEmpty(category) && category != "0")
             {
                 products = products.Where(p => p.CategoryId == int.Parse(category)).ToList();
             }
 
-            // bundan sonra tarayıcıda linkin sonuna ?searchString=iphone yazarak arama yapabiliriz
+            // bundan sonra tarayÃ½cÃ½da linkin sonuna ?searchString=iphone yazarak arama yapabiliriz
 
-            // model adında bir değişken oluşturuyoruz
-            // bu değişkenin içerisine products ve categories listesini atıyoruz
-            // ve bu değişkeni view sayfasına gönderiyoruz
+            // model adÃ½nda bir deÃ°iÃ¾ken oluÃ¾turuyoruz
+            // bu deÃ°iÃ¾kenin iÃ§erisine products ve categories listesini atÃ½yoruz
+            // ve bu deÃ°iÃ¾keni view sayfasÃ½na gÃ¶nderiyoruz
 
             var model = new ProductViewModel
             {
                 Products = products,
                 Categories = Repository.Categories,
-                SelectedCategory = int.Parse(category)
+                SelectedCategory = category
             };
 
             return View(model);
@@ -58,11 +58,18 @@ namespace Forms.Controllers
             return View();
         }
 
+        // bind kullanarak, viewden sadece Name ve Price alanlarÄ±nÄ± alÄ±yoruz
         [HttpPost]
         public IActionResult Create(Product model)
         {
             ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
-            return View(model);
+
+            model.ProductId = Repository.GetProductId();
+            Repository.CreateProduct(model);
+
+
+
+            return RedirectToAction("Index");
         }
     }
 }
