@@ -3,19 +3,25 @@
     ViewData["Title"] = "Create";
 }
 <form method="post" asp-controller="home" asp-action="create">
+    <div asp-validation-summary="All"></div>
     <div class="mb-3">
         <label for="Name" class="form-label">Name</label>
         <input asp-for="Name" class="form-control" >
+        <span asp-validation-for="Name"></span>
     </div>
 
     <div class="mb-3">
         <label class="form-label" for="Price">Fiyat</label>
         <input asp-for="Price" class="form-control">
+        <span asp-validation-for="Price"></span>
     </div>
 
     <div class="mb-3">
         <label class="form-label" for="Image">Resim</label>
         <input asp-for="Image" class="form-control">
+        @* span etiketi içerisinde, asp-validation-for kullanılarak, Image alanı için validation mesajı gösterildi
+        aynısını diğer alanlarda da yapabiliyoruz *@
+        <span asp-validation-for="Image"></span>
     </div>
 
     @* kategori id için asp for kullanıldı
@@ -25,11 +31,12 @@
         <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-select">
             <option value="0">Hepsi</option>
         </select>
+        <span asp-validation-for="CategoryId"></span>
     </div>
 
     <div class="mb-3">
-        <input asp-for="IsActive" class="form-check-input">
         <label class="form-check-label" asp-for="IsActive">Is Active</label>
+        <input asp-for="IsActive" class="form-check-input">
     </div>
 
     <button type="submit" class="btn btn-primary">Kaydet</button>

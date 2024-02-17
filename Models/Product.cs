@@ -11,14 +11,14 @@ namespace Forms.Models
     {
         // Product Id'nin namenin çağırılmasıyla tabloda nasıl görünmesi gerektiğini belirtiyoruz
         [Display(Name = "Ürün Id")]
-        [Required]
         // BindNever attribute'u ile bu alanın bind edilmemesini sağlıyabiliyoruz
         //[BindNever]
         public int ProductId { get; set; }
 
         [Display(Name = "Ürün Adı")]
         [Required]
-        public string Name { get; set; } = string.Empty;
+        // null değer alamasaydı, required özelliğinin anlamı olmazdı. Çünkü null değer alamazsa, zaten null değer alamazdı
+        public string? Name { get; set; } = string.Empty;
 
         [Display(Name = "Fiyat")]
         [Required(ErrorMessage = "Fiyat bilgisi girilmelidir.")]
@@ -26,10 +26,11 @@ namespace Forms.Models
 
         [Display(Name = "Resim")]
         [Required]
+        // string length attribute'u ile bu alanın maksimum kaç karakter alabileceğini belirleyebiliyoruz
+        [StringLength(25, ErrorMessage = "8 karakterden fazla girilemez")]
         public string? Image { get; set; } = string.Empty;
 
         [Display(Name = "Durum")]
-        [Required]
         public bool IsActive { get; set; }
 
         [Display(Name = "Kategori")]

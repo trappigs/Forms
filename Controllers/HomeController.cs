@@ -64,12 +64,14 @@ namespace Forms.Controllers
         {
             ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
 
-            model.ProductId = Repository.GetProductId();
-            Repository.CreateProduct(model);
+            if (ModelState.IsValid)
+            {
+                model.ProductId = Repository.GetProductId();
+                Repository.CreateProduct(model);
+                return RedirectToAction("Index");
+            }
 
-
-
-            return RedirectToAction("Index");
+            return View(model);
         }
     }
 }
