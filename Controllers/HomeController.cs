@@ -60,7 +60,7 @@ namespace Forms.Controllers
 
         // bind kullanarak, viewden sadece Name ve Price alanlarını alıyoruz
         [HttpPost]
-        public IActionResult Create(Product model)
+        public IActionResult Create(Product model, IFormFile imageFile)
         {
             ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
 

@@ -2,7 +2,10 @@
 @{
     ViewData["Title"] = "Create";
 }
-<form method="post" asp-controller="home" asp-action="create">
+
+@* enctype="multipart/form-data"
+bu kodu yazmasaydık, resim alanı gönderilmeyecekti *@
+<form method="post" asp-controller="home" asp-action="create" enctype="multipart/form-data">
     <div asp-validation-summary="All"></div>
     <div class="mb-3">
         <label for="Name" class="form-label">Name</label>
@@ -16,13 +19,12 @@
         <span asp-validation-for="Price"></span>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label" for="Image">Resim</label>
-        <input asp-for="Image" class="form-control">
-        @* span etiketi içerisinde, asp-validation-for kullanılarak, Image alanı için validation mesajı gösterildi
-        aynısını diğer alanlarda da yapabiliyoruz *@
-        <span asp-validation-for="Image"></span>
+   
+    @* Image dosyası koymak için artık dosya ismi girmek yerine, kendi bilgisayarımızdan dosya yükleyeceğiz *@
+    <div class="input-group mb-3">
+        <input type="file" name="imageFile" id="imageFile" class="form-control">
     </div>
+
 
     @* kategori id için asp for kullanıldı
     kategori dropdown listesi için viewbag kullanıldı *@

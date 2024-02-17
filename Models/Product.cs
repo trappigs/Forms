@@ -18,14 +18,13 @@ namespace Forms.Models
         [Display(Name = "Ürün Adı")]
         [Required]
         // null değer alamasaydı, required özelliğinin anlamı olmazdı. Çünkü null değer alamazsa, zaten null değer alamazdı
-        public string? Name { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
         [Display(Name = "Fiyat")]
         [Required(ErrorMessage = "Fiyat bilgisi girilmelidir.")]
         public int? Price { get; set; }
 
         [Display(Name = "Resim")]
-        [Required]
         // string length attribute'u ile bu alanın maksimum kaç karakter alabileceğini belirleyebiliyoruz
         [StringLength(25, ErrorMessage = "8 karakterden fazla girilemez")]
         public string? Image { get; set; } = string.Empty;
