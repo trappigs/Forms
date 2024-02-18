@@ -58,17 +58,54 @@ namespace Forms.Controllers
             return View();
         }
 
-        // bind kullanarak, viewden sadece Name ve Price alanlarını alıyoruz
+        // Metodumuzu, async ve Task yapıyoruz. Bunun sebebi: async çalıştırmak istiyoruz ve async çalıştırabilmek için
+        // View Metodlarının Task olması gerekiyor
         [HttpPost]
-        public IActionResult Create(Product model, IFormFile imageFile)
+        public async Task<IActionResult> Create(Product model, IFormFile imageFile)
         {
             ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+            var extension = "";
+
+            // Gönderilen dosyanın null olup olmadığını kontrol ediyoruz
+            if (imageFile != null)
+            {
+                // sadece izin verdiğimiz uzantılı dosyalar yüklenebilmeli
+                var allowedExtensions = new[] { ".jpg", ".png", ".jpeg" };
+                // yüklenilen dosyanın uzantısını öğreniyoruz
+                extension = Path.GetExtension(imageFile.FileName);
+                // yüklenilen dosyanının uzantısına izin verip vermediğimizi kontrol ediyoruz.
+                // izin vermiyorsak hata veriyoruz
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("", "Geçerli bir resim seçiniz.");
+                }
+            }
 
             if (ModelState.IsValid)
             {
-                model.ProductId = Repository.GetProductId();
-                Repository.CreateProduct(model);
-                return RedirectToAction("Index");
+                // yüklenilen dosya null değilse işlemleri gerçekleştireceğiz
+                if (imageFile != null)
+                {
+                    // yüklenecek dosya projeye klasörüne yükleneceği ve çakışma olabileceği için
+                    // rastgele bir isim belirliyoruz
+                    var randomFileName = Path.GetRandomFileName() + extension;
+                    // resimlerin yükleneceği klasör yolunu belirliyoruz
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomFileName);
+
+                    // resimleri yükleme işlemleri
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        // asenkron bir şekilde resmin projemize yüklenmesini sağlıyoruz
+                        await imageFile.CopyToAsync(stream);
+                    }
+
+                    // resmin adının producta eklenmesini sağlıyoruz
+                    // bunu yapmazsak, index.cshtml bunu görüntüleyemez
+                    model.Image = randomFileName;
+                    model.ProductId = Repository.GetProductId();
+                    Repository.CreateProduct(model);
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(model);
