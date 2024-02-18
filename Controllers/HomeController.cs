@@ -178,6 +178,24 @@ namespace Forms.Controllers
         }
 
 
+        public IActionResult Delete(int? id)
+        {
+            var entity = Repository.Products.FirstOrDefault(p => p.ProductId == id);
+
+
+            if (id == null || entity == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                Repository.DeleteProduct(entity);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
 
     }
 }

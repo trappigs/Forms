@@ -53,6 +53,19 @@
             }
         }
 
+        public static void DeleteProduct(Product deletedProduct)
+        {
+            // gönderilen ürünü entity değişkenine aktarıyoruz
+            var entity = _products.FirstOrDefault(p => p.ProductId == deletedProduct.ProductId);
+
+            // gönderilen ürün null değilse, Remove metodu sayesinde ürünü siliyoruz
+            if (entity != null)
+            {
+                _products.Remove(entity);
+            }
+        }
+
+
         public static int GetProductId()
         {
             if (_products.Count > 0)

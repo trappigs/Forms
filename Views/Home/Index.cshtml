@@ -51,10 +51,12 @@
                 <td>@item.CategoryId</td>
                 <td>
                     <a href="/home/Edit/@item.ProductId" class="btn btn-sm btn-primary">Edit</a>
-                    <a href="" class="btn btn-sm btn-danger">Delete</a>
+                    @* ürün id yi edit metoduna gönderiyoruz *@
+                    <a href="/home/Delete/@item.ProductId" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <a class="btn btn-sm btn-primary" asp-controller="home" asp-action="create">Create</a>
+
