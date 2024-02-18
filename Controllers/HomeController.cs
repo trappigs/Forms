@@ -180,6 +180,7 @@ namespace Forms.Controllers
 
         public IActionResult Delete(int? id)
         {
+            // gönderilen ürün id'ye göre, ürün modelini entity değişkenine aktarıyoruz
             var entity = Repository.Products.FirstOrDefault(p => p.ProductId == id);
 
 
@@ -187,14 +188,29 @@ namespace Forms.Controllers
             {
                 return NotFound();
             }
-            else
+
+            return View("DeleteConfirm", entity);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int? id, int ProductId)
+        {
+
+            if (id != ProductId)
             {
-                Repository.DeleteProduct(entity);
+                return NotFound();
             }
+
+            var entity = Repository.Products.FirstOrDefault(p => p.ProductId == ProductId);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            Repository.DeleteProduct(entity);
 
             return RedirectToAction("Index");
         }
-
 
 
     }
