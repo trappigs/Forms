@@ -112,24 +112,69 @@ namespace Forms.Controllers
         }
 
 
-
+        // kullanıcıya editlemek istediği sayfayı gösterebilmek için
+        // IActionResult metodu yazıyoruz
         public IActionResult Edit(int? id)
         {
             ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
 
+            // id null ise, kullanıcıya sayfa bulunamadı hatası veriyoruz
             if (id == null)
             {
                 return NotFound();
             }
 
+            // kullanıcıya sadece editlemek istediği ürünü gösterebilmek için gönderilen id yi değişkene kaydediyoruz
             var entity = Repository.Products.FirstOrDefault(p => p.ProductId == id);
 
+            // id ye göre editlenmek istenen ürün null ise kullanıcıya sayfa bulunamadı hatası gönderiyoruz
             if (entity == null)
             {
                 return NotFound();
             }
 
             return View(entity);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int? id, Product model, IFormFile? imageFile)
+        {
+            // gönderilen id, ürün id ile aynı mı kontrol ediyoruz
+            if (id != model.ProductId)
+            {
+                return NotFound();
+            }
+
+            // formdan gönderilen değerler uygun mu diye kontrol ediyoruz
+            if (ModelState.IsValid)
+            {
+                // resim yükleme işlemlerini gerçekleştiriyoruz
+                var extension = "";
+                if (imageFile != null)
+                {
+                    var allowedExtensions = new[] { ".jpg", ".png", ".jpeg" };
+                    extension = Path.GetExtension(imageFile.FileName);
+                    var randomFileName = Path.GetRandomFileName() + extension;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomFileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+                    // Productın mevcut Image parametresine yeni bir değer atıyoruz
+                    model.Image = randomFileName;
+                }
+
+                // Create metodundan farklı olarak, EditProduct metodunu kullanıyor
+                // ve ürünün özelliklerini değiştiriyoruz
+                Repository.EditProduct(model);
+                // ürünü düzenledikten sonra Index sayfasına geri gönderiyoruz
+                return RedirectToAction("Index");
+            }
+
+            // ModelState.IsValid false olduğu için model bilgileriyle birlikte Edit sayfasının
+            // bir daha açılmasını sağlıyoruz
+            return View(model);
         }
 
 

@@ -5,8 +5,8 @@
     {
         // ürünlerin ve kategorilerin listesi
         // ürünleri ve kategorileri buradan ekleyeceğiz, ve burayı geçici veri tabanıymış gibi kullanacağız
-        public static  List<Product> _products = new();
-        public static  List<Category> _categories = new();
+        public static List<Product> _products = new();
+        public static List<Category> _categories = new();
 
         // ürünlerin ve kategorilerin eklenmesini bu kurucu metotta yapacağız
         static Repository()
@@ -33,6 +33,24 @@
         public static void CreateProduct(Product entity)
         {
             _products.Add(entity);
+        }
+
+
+        // ürünümüzü düzenlemek için Repository classındayken
+        // bir EditProduct metodu yazıyoruz ve ürününün çeşitli özelliklerini gelen parametrelere
+        // göre değiştiriyoruz
+        public static void EditProduct(Product updatedProduct)
+        {
+            var entity = _products.FirstOrDefault(p => p.ProductId == updatedProduct.ProductId);
+
+            if (entity != null)
+            {
+                entity.Name = updatedProduct.Name;
+                entity.Price = updatedProduct.Price;
+                entity.Image = updatedProduct.Image;
+                entity.CategoryId = updatedProduct.CategoryId;
+                entity.IsActive = updatedProduct.IsActive;
+            }
         }
 
         public static int GetProductId()
