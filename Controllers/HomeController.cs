@@ -213,5 +213,18 @@ namespace Forms.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult EditProducts(List<Product> Products)
+        {
+            foreach (var item in Products)
+            {
+                // EditIsActive metoduna Liste halindeki Products bilgilerini foreach kullanarak teker teker yolladık
+                // ve veritabanını güncelledik
+                Repository.EditIsActive(item);
+            }
+
+            return RedirectToAction("index");
+        }
+
     }
 }

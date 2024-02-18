@@ -15,12 +15,12 @@
             _categories.Add(new Category { CategoryId = 2, Name = "Bilgisayar" });
 
             _products.Add(new Product { ProductId = 1, Name = "iPhone 14", Price = 2000, Image = "1.jpg", IsActive = true, CategoryId = 1 });
-            _products.Add(new Product { ProductId = 2, Name = "iPhone 15", Price = 3000, Image = "2.jpg", IsActive = true, CategoryId = 1 });
+            _products.Add(new Product { ProductId = 2, Name = "iPhone 15", Price = 3000, Image = "2.jpg", IsActive = false, CategoryId = 1 });
             _products.Add(new Product { ProductId = 3, Name = "Samsung S7", Price = 4000, Image = "3.jpg", IsActive = true, CategoryId = 1 });
-            _products.Add(new Product { ProductId = 4, Name = "Samsung S8", Price = 5000, Image = "4.jpg", IsActive = true, CategoryId = 1 });
+            _products.Add(new Product { ProductId = 4, Name = "Samsung S8", Price = 5000, Image = "4.jpg", IsActive = false, CategoryId = 1 });
 
             _products.Add(new Product { ProductId = 6, Name = "Macbook Air", Price = 7000, Image = "5.jpg", IsActive = true, CategoryId = 2 });
-            _products.Add(new Product { ProductId = 7, Name = "Macbook Pro", Price = 8000, Image = "6.jpg", IsActive = true, CategoryId = 2 });
+            _products.Add(new Product { ProductId = 7, Name = "Macbook Pro", Price = 8000, Image = "6.jpg", IsActive = false, CategoryId = 2 });
         }
 
 
@@ -53,7 +53,19 @@
             }
         }
 
-        public static void DeleteProduct(Product deletedProduct)
+        public static void EditIsActive(Product updatedProduct)
+        {
+            // burada bir LİNQ expression kullandığımız için, _products ile entity aynı nesneye işaret eder
+            var entity = _products.FirstOrDefault(p => p.ProductId == updatedProduct.ProductId);
+
+            if (entity != null)
+            {
+                entity.IsActive = updatedProduct.IsActive;
+            }
+        }
+
+
+                public static void DeleteProduct(Product deletedProduct)
         {
             // gönderilen ürünü entity değişkenine aktarıyoruz
             var entity = _products.FirstOrDefault(p => p.ProductId == deletedProduct.ProductId);
