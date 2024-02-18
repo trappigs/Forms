@@ -110,5 +110,29 @@ namespace Forms.Controllers
 
             return View(model);
         }
+
+
+
+        public IActionResult Edit(int? id)
+        {
+            ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var entity = Repository.Products.FirstOrDefault(p => p.ProductId == id);
+
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            return View(entity);
+        }
+
+
+
     }
 }
