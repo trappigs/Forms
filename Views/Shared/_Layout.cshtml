@@ -34,7 +34,13 @@
                     </ul>
                 </div>
 
-                
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="EditCategory">Edit Category</a>
+                        </li>
+                    </ul>
+                </div>
                 <form class="d-flex" asp-action="Index" method="get">
                     <input class="form-control me-2" type="search" placeholder="Anahtar Kelime" aria-label="Search" name="searchString">
                     <input class="form-control me-2" type="search" placeholder="Kategori ID" aria-label="Search" name="category">

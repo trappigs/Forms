@@ -83,6 +83,17 @@
             _categories.Add(new Category { CategoryId = (_categories.Count + 1), Name = newCategoryName });
         }
 
+        public static void EditCategory(int CategoryId, string NewCategoryName)
+        {
+            var entity = _categories.FirstOrDefault(p => p.CategoryId == CategoryId);
+
+            if (entity != null)
+            {
+                entity.Name = NewCategoryName;
+            }
+
+        }
+
         public static int GetProductId()
         {
             if (_products.Count > 0)

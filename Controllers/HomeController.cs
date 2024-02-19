@@ -23,7 +23,7 @@ namespace Forms.Controllers
                 // p denilen deðiþken products içerisinde yer alan her bir ürünü temsil ediyor
                 // bu, products içerisindeki ürünlerin adlarý içerisinde, bizim search stringimiz var mý kontrol ediliyor
                 // varsa eðer, listeye çevirilerek, productsa kaydediliyor
-                products = products.Where(p => p.Name.ToLower().Contains(searchString)).ToList();
+                products = products.Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
             }
 
             // category null veya boþ deðilse eðer bu koþul çalýþýyor
@@ -232,12 +232,30 @@ namespace Forms.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult AddCategory(string Category)
-        //{
-        //    Repository.AddCategory(Category);
+        [HttpPost]
+        public IActionResult AddCategory(string Category)
+        {
+            Repository.AddCategory(Category);
 
-        //    return RedirectToAction("index");
-        //}
+            return RedirectToAction("index");
+        }
+
+        [HttpGet]
+        public IActionResult EditCategory()
+        {
+            ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult EditCategory(int id, string CategoryName)
+        {
+            ViewBag.Categories = new SelectList(Repository.Categories, "CategoryId", "Name");
+
+            Repository.EditCategory(id, CategoryName);
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
