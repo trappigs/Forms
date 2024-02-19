@@ -226,5 +226,18 @@ namespace Forms.Controllers
             return RedirectToAction("index");
         }
 
+        public IActionResult AddCategory()
+        {
+
+            return View();
+        }
+
+        //[HttpPost]
+        //public IActionResult AddCategory(string Category)
+        //{
+        //    Repository.AddCategory(Category);
+
+        //    return RedirectToAction("index");
+        //}
     }
 }

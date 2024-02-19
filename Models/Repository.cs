@@ -65,7 +65,7 @@
         }
 
 
-                public static void DeleteProduct(Product deletedProduct)
+        public static void DeleteProduct(Product deletedProduct)
         {
             // gönderilen ürünü entity değişkenine aktarıyoruz
             var entity = _products.FirstOrDefault(p => p.ProductId == deletedProduct.ProductId);
@@ -77,6 +77,11 @@
             }
         }
 
+
+        public static void AddCategory(string newCategoryName)
+        {
+            _categories.Add(new Category { CategoryId = (_categories.Count + 1), Name = newCategoryName });
+        }
 
         public static int GetProductId()
         {
@@ -92,5 +97,9 @@
         {
             get { return _categories; }
         }
+
+
+
+
     }
 }
